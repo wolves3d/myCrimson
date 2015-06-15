@@ -1,4 +1,4 @@
-/build
+build
 /cocos2d-x-2.2.6
 /bin/*.dll
 /bin/*.lib
@@ -6,5 +6,4 @@
 /bin/*.pdb
 /bin/*.exe
 /bin/*.ilk
-/bin/resources/*.icf
 /source/proj.win32/*.user
