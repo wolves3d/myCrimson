@@ -6,6 +6,5 @@
 /bin/*.pdb
 /bin/*.exe
 /bin/*.ilk
-
-#Do now ignore  Marmalade icf files
 /bin/resources/*.icf
+/source/proj.win32/*.user
