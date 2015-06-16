@@ -1,8 +1,8 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
 
-#include "cocos2d.h"
 #include "player.h"
+#include "map.h"
 
 class HelloWorld : public cocos2d::CCLayer
 {

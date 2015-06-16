@@ -45,18 +45,18 @@ bool HelloWorld::init()
     
 	pCloseItem->setPosition(ccp(origin.x + visibleSize.width - pCloseItem->getContentSize().width/2 ,
                                 origin.y + pCloseItem->getContentSize().height/2));
-
+	
     // create menu, it's an autorelease object
     CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
     pMenu->setPosition(CCPointZero);
-    this->addChild(pMenu, 1);
+    this->addChild(pMenu);
 
     /////////////////////////////
     // 3. add your codes below...
 
     // add a label shows "Hello World"
     // create and initialize a label
-    
+	/*
     CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Arial", TITLE_FONT_SIZE);
     
     // position the label on the center of the screen
@@ -64,7 +64,7 @@ bool HelloWorld::init()
                             origin.y + visibleSize.height - pLabel->getContentSize().height));
 
     // add the label as a child to this layer
-    this->addChild(pLabel, 1);
+    this->addChild(pLabel);
 
     // add "HelloWorld" splash screen"
     CCSprite* pSprite = CCSprite::create("HelloWorld.png");
@@ -73,8 +73,38 @@ bool HelloWorld::init()
     pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
     // add the sprite as a child to this layer
-    this->addChild(pSprite, 0);
-    
+    this->addChild(pSprite);
+    */
+	/*
+	CCSprite* pSprite = CCSprite::create("hero.png");
+
+	if (NULL == pSprite)
+	{
+		return false;
+	}
+
+	addChild(pSprite);
+
+	pSprite->setPosition(ccp(0.5f * visibleSize.width, 0.5f * visibleSize.height));
+	*/
+
+	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
+
+	CCPoint halfScreen(0.5f * visibleSize.width, 0.5f * visibleSize.height);
+
+	Map * mapLayer = Map::create();
+	if (NULL != mapLayer)
+	{
+		mapLayer->setPosition(halfScreen);
+		addChild(mapLayer);
+
+		Player * playerNode = Player::create();
+		if (NULL != playerNode)
+		{
+			mapLayer->MapInit(playerNode);
+		}
+	}
+	
     return true;
 }
 

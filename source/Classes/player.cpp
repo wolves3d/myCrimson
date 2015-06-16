@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "player.h"
+#include "map.h"
 
 
 Player::Player()
@@ -34,29 +35,33 @@ void Player::update(float delta)
 
 void Player::HandleKeyboardInput()
 {
+	CCPoint playerOffset = CCPointZero;
+
+	// FIXME: WIN32 specific, no multiplatform support
 	if (0x80 & GetKeyState('W'))
 	{
-		CCPoint prevPos = getPosition();
-		prevPos.y += 10;
-		setPosition(prevPos);
+		playerOffset.y += m_MoveStep;
 	}
 	else if (0x80 & GetKeyState('S'))
 	{
-		CCPoint prevPos = getPosition();
-		prevPos.y -= 10;
-		setPosition(prevPos);
+		playerOffset.y -= m_MoveStep;
 	}
 
 	if (0x80 & GetKeyState('A'))
 	{
-		CCPoint prevPos = getPosition();
-		prevPos.x -= 10;
-		setPosition(prevPos);
+		playerOffset.x -= m_MoveStep;
 	}
 	else if (0x80 & GetKeyState('D'))
 	{
-		CCPoint prevPos = getPosition();
-		prevPos.x += 10;
-		setPosition(prevPos);
+		playerOffset.x += m_MoveStep;
 	}
+
+	if (0 == playerOffset.getLengthSq())
+	{
+		// not moving
+		return;
+	}
+
+	setPosition( ccpAdd(getPosition(), playerOffset) );
+	g_Map->OnPlayerMoved();
 }

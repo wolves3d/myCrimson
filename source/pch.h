@@ -15,5 +15,12 @@
 #include "cocos2d.h"
 using namespace cocos2d;
 
+// Forward declarations
+class Map;
+class Player;
+
+// Singletons
+extern Map * g_Map;
+
 
 #endif // #ifndef __pch_h_included__
