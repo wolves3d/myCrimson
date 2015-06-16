@@ -1,7 +1,10 @@
-# Moveable player
-# Scrollable map (3x3 screen)
+TO DO:
 # Shooting
 # Enemies moving (wandering)
 # Bullet vs enemy (obstacles too) collission
 # Enemy vs player collision
 # Enemy AI - player chasing
+
+DONE:
+# Moveable player
+# Scrollable map (3x3 screen)
