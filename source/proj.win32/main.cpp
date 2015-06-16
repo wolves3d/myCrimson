@@ -14,9 +14,16 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     AppDelegate app;
     CCEGLView* eglView = CCEGLView::sharedOpenGLView();
     eglView->setViewName("myCrimsonland");
-    eglView->setFrameSize(2048, 1536);
+
+	// FIXME: Looks like cocos bug, black screen on 1024*768 res
+	eglView->setFrameSize(1024, 768);
+
+	// FIXME: hack
+	eglView->setFrameSize(1024, 769);
+
+    //eglView->setFrameSize(2048, 1536);
     // The resolution of ipad3 is very large. In general, PC's resolution is smaller than it.
     // So we need to invoke 'setFrameZoomFactor'(only valid on desktop(win32, mac, linux)) to make the window smaller.
-    eglView->setFrameZoomFactor(0.5f);
+    eglView->setFrameZoomFactor(1.0f);
     return CCApplication::sharedApplication()->run();
 }

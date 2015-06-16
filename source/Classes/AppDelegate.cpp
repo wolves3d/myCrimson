@@ -85,7 +85,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
         pDirector->setContentScaleFactor(MIN(smallResource.size.height/designResolutionSize.height, smallResource.size.width/designResolutionSize.width));
     }
-
+	
+	// FIXME: Scale factor override
+	pDirector->setContentScaleFactor(1.0f);
 
     // set searching path
     CCFileUtils::sharedFileUtils()->setSearchPaths(searchPath);
