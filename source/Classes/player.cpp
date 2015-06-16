@@ -56,12 +56,27 @@ void Player::HandleKeyboardInput()
 		playerOffset.x += m_MoveStep;
 	}
 
+	// early exit?
 	if (0 == playerOffset.getLengthSq())
 	{
-		// not moving
+		// no moving at all
 		return;
 	}
 
-	setPosition( ccpAdd(getPosition(), playerOffset) );
+	const CCPoint newPlayerPos = ccpAdd(getPosition(), playerOffset);
+	const CCSize mapSize = g_Map->getContentSize();
+
+	// Keep player in map (horizontal border)
+	if ((fabsf(newPlayerPos.x) < (0.5f * mapSize.width)))
+	{
+		setPositionX(newPlayerPos.x);
+	}
+
+	// Keep player in map (vertical border)
+	if ((fabsf(newPlayerPos.y) < (0.5f * mapSize.height)))
+	{
+		setPositionY(newPlayerPos.y);
+	}
+
 	g_Map->OnPlayerMoved();
 }
