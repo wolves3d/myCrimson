@@ -1,8 +1,6 @@
+#include "pch.h"
 #include "main.h"
-#include "../Classes/AppDelegate.h"
-#include "CCEGLView.h"
 
-USING_NS_CC;
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                        HINSTANCE hPrevInstance,
