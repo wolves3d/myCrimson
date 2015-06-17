@@ -8,14 +8,15 @@ class Player : public CCNode
 	const float m_MoveStep = 5.0f;
 
 public:
-	Player();
 	CREATE_FUNC(Player);
 
 private:
+	Player();
 	virtual bool init();
 	virtual void update(float delta);
 
 	void HandleKeyboardInput();
+	void Fire();
 };
 
 
