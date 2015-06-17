@@ -22,5 +22,8 @@ class Player;
 // Singletons
 extern Map * g_Map;
 
+// Custom math
+#define RADIAN_TO_DEGREE(X) (180.0f / M_PI * (X))
+
 
 #endif // #ifndef __pch_h_included__

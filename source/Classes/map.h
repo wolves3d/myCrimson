@@ -5,7 +5,6 @@
 class Map : public CCLayer
 {
 public:
-	Map();
 	CREATE_FUNC(Map);
 	void MapInit(Player * player);
 
@@ -13,6 +12,7 @@ public:
 	void OnPlayerMoved(); 
 
 private:
+	Map();
 	virtual bool init();
 
 	Player * m_pPlayer;
