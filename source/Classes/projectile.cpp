@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "projectile.h"
+#include "game_logic.h"
 
 
 bool Projectile::init()
@@ -51,5 +52,6 @@ void Projectile::update(float delta)
 
 void Projectile::OnMissed()
 {
+	g_GameLogic->OnProjectileDeleted(this);
 	removeFromParent();
 }

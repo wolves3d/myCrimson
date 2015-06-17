@@ -19,13 +19,16 @@ using namespace cocos2d;
 typedef unsigned int uint;
 
 // Forward declarations
+class GameLogic;
 class Map;
 class Player;
+class Enemy;
 class Weapon;
 class Projectile;
 
 // Singletons
 extern Map * g_Map;
+extern GameLogic * g_GameLogic;
 
 // Custom math
 #define RADIAN_TO_DEGREE(X) (180.0f / M_PI * (X))

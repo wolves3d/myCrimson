@@ -11,7 +11,7 @@ public:
 private:
 	Weapon();
 	bool IsCooldown() const;
-	virtual uint GetCooldownTime() const { return 300; }
+	virtual uint GetCooldownTime() const { return 150; }
 	virtual float GetProjectileSpeed() const { return 650.0f;  } // points per second
 
 	uint m_LastShotTime;

@@ -2,6 +2,7 @@
 #include "map.h"
 #include "weapon.h"
 #include "projectile.h"
+#include "game_logic.h"
 
 
 Weapon::Weapon()
@@ -33,6 +34,8 @@ bool Weapon::Fire(const CCPoint & origin, const CCPoint & target)
 	g_Map->addChild(bullet);
 	bullet->setPosition(origin);
 	bullet->Go(target, GetProjectileSpeed());
+
+	g_GameLogic->OnProjectileCreated(bullet);
 	
 	return true;
 }
