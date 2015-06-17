@@ -20,15 +20,20 @@ bool Projectile::init()
 }
 
 
-void Projectile::Go(const CCPoint & target)
+void Projectile::Go(const CCPoint & target, float speed)
 {
+	CCPoint targetDir = ccpSub(target, getPosition());
+	const float shootDistance = targetDir.getLength();
+
 	// Set start projectile rotation
-	const CCPoint targetDir = ccpNormalize(ccpSub(target, getPosition()));
+	targetDir.normalize();
 	const float angle = -atan2f(targetDir.y, targetDir.x);
 	setRotation(RADIAN_TO_DEGREE(angle));	
 
+	const float flyTime = (shootDistance / speed);
+
 	CCAction * action = CCSequence::createWithTwoActions(
-		CCMoveTo::create(0.1f, target),
+		CCMoveTo::create(flyTime, target),
 		CCCallFunc::create(this, callfunc_selector(Projectile::OnMissed)));
 
 	if (NULL != action)
