@@ -63,11 +63,6 @@ void Player::HandleKeyboardInput()
 		playerOffset.x += m_MoveStep;
 	}
 
-	// Fire
-	if ((0x80 & GetKeyState(VK_LBUTTON)) || (0x80 & GetKeyState(VK_RCONTROL)))
-	{
-		GetCurrentWeapon()->Fire(getPosition(), CCPointZero);
-	}
 
 	// early exit?
 	if (0 == playerOffset.getLengthSq())
@@ -104,4 +99,10 @@ void Player::SetCurrentWeapon(Weapon * weapon)
 
 	m_Weapon = weapon;
 	addChild(m_Weapon);
+}
+
+
+void Player::ShootTo(const CCPoint & target)
+{
+	GetCurrentWeapon()->Fire(getPosition(), target);
 }

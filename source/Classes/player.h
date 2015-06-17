@@ -9,6 +9,7 @@ class Player : public CCNode
 
 public:
 	CREATE_FUNC(Player);
+	void ShootTo(const CCPoint & target);
 
 private:
 	Player();

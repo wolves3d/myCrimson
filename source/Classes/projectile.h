@@ -6,7 +6,7 @@ class Projectile : public CCNode
 {
 public:
 	CREATE_FUNC(Projectile);
-	void Go(CCPoint target);
+	void Go(const CCPoint & target);
 
 private:
 	virtual bool init();

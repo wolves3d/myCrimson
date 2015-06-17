@@ -31,7 +31,7 @@ bool Weapon::Fire(const CCPoint & origin, const CCPoint & target)
 	m_LastShotTime = TimeInMilliseconds();
 	
 	g_Map->addChild(bullet);
-	bullet->setPosition(getParent()->getPosition());
+	bullet->setPosition(origin);
 	bullet->Go(target);
 	
 	return true;

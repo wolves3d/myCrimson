@@ -19,8 +19,9 @@ bool Map::init()
 	if (false == CCLayer::init())
 		return false;
 
-	CCSprite * mapSprite = CCSprite::create("big_map.jpg");
+	setTouchEnabled(true);
 
+	CCSprite * mapSprite = CCSprite::create("big_map.jpg");
 	if (NULL == mapSprite)
 	{
 		return false;
@@ -68,4 +69,15 @@ void Map::OnPlayerMoved()
 	{
 		this->setPositionY(m_ZeroPoint.y - playerPos.y);
 	}
+}
+
+
+void Map::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
+{
+	CCTouch * touch = (CCTouch*)(pTouches->anyObject());
+	CCPoint target = convertToNodeSpace(touch->getLocation());
+	
+	m_pPlayer->ShootTo(target);
+
+	CCLayer::ccTouchesEnded(pTouches, pEvent);
 }

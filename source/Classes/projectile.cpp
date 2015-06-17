@@ -20,16 +20,12 @@ bool Projectile::init()
 }
 
 
-void Projectile::Go(CCPoint target)
+void Projectile::Go(const CCPoint & target)
 {
 	// Set start projectile rotation
 	const CCPoint targetDir = ccpNormalize(ccpSub(target, getPosition()));
 	const float angle = -atan2f(targetDir.y, targetDir.x);
-	setRotation(RADIAN_TO_DEGREE(angle));
-
-
-	target = ccpMult(target, 100);
-	
+	setRotation(RADIAN_TO_DEGREE(angle));	
 
 	CCAction * action = CCSequence::createWithTwoActions(
 		CCMoveTo::create(0.1f, target),

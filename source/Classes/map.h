@@ -14,6 +14,7 @@ public:
 private:
 	Map();
 	virtual bool init();
+	virtual void ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent);
 
 	Player * m_pPlayer;
 	CCPoint m_ZeroPoint;
