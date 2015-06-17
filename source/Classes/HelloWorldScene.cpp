@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "HelloWorldScene.h"
 #include "AppMacros.h"
+#include "game_logic.h"
 USING_NS_CC;
 
 
@@ -88,22 +89,8 @@ bool HelloWorld::init()
 	pSprite->setPosition(ccp(0.5f * visibleSize.width, 0.5f * visibleSize.height));
 	*/
 
-	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-
-	CCPoint halfScreen(0.5f * visibleSize.width, 0.5f * visibleSize.height);
-
-	Map * mapLayer = Map::create();
-	if (NULL != mapLayer)
-	{
-		mapLayer->setPosition(halfScreen);
-		addChild(mapLayer);
-
-		Player * playerNode = Player::create();
-		if (NULL != playerNode)
-		{
-			mapLayer->MapInit(playerNode);
-		}
-	}
+	CCNode * gameLogic = GameLogic::create();
+	addChild(gameLogic);
 	
     return true;
 }
