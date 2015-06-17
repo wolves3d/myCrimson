@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "player.h"
 #include "map.h"
-#include "projectile.h"
+#include "weapon.h"
 
 
 Player::Player()
+	: m_Weapon(NULL)
 {
 
 }
@@ -21,6 +22,8 @@ bool Player::init()
 	{
 		return false;
 	}
+
+	SetCurrentWeapon(Weapon::create());
 
 	addChild(pSprite);
 	scheduleUpdate();
@@ -63,7 +66,7 @@ void Player::HandleKeyboardInput()
 	// Fire
 	if ((0x80 & GetKeyState(VK_LBUTTON)) || (0x80 & GetKeyState(VK_RCONTROL)))
 	{
-		Fire();
+		GetCurrentWeapon()->Fire(getPosition(), CCPointZero);
 	}
 
 	// early exit?
@@ -92,18 +95,13 @@ void Player::HandleKeyboardInput()
 }
 
 
-void Player::Fire()
+void Player::SetCurrentWeapon(Weapon * weapon)
 {
-	// FIXME: add cooldown test here
-
-	CCPoint shootDirection(0, 0);
-
-	// Get direction
-	Projectile * bullet = Projectile::create();
-	if (NULL != bullet)
+	if (NULL != m_Weapon)
 	{
-		g_Map->addChild(bullet);
-		bullet->setPosition(getPosition());
-		bullet->Go(shootDirection);
-	}	
+		m_Weapon->removeFromParent();
+	}
+
+	m_Weapon = weapon;
+	addChild(m_Weapon);
 }

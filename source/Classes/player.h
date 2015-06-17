@@ -16,7 +16,9 @@ private:
 	virtual void update(float delta);
 
 	void HandleKeyboardInput();
-	void Fire();
+	void SetCurrentWeapon(Weapon * weapon);
+	Weapon * GetCurrentWeapon()  { return m_Weapon; }
+	Weapon * m_Weapon;
 };
 
 

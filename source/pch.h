@@ -15,15 +15,23 @@
 #include "cocos2d.h"
 using namespace cocos2d;
 
+// short type names
+typedef unsigned int uint;
+
 // Forward declarations
 class Map;
 class Player;
+class Weapon;
+class Projectile;
 
 // Singletons
 extern Map * g_Map;
 
 // Custom math
 #define RADIAN_TO_DEGREE(X) (180.0f / M_PI * (X))
+
+// general utils
+unsigned int TimeInMilliseconds();
 
 
 #endif // #ifndef __pch_h_included__

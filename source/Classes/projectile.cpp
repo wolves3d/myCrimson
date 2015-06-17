@@ -50,5 +50,5 @@ void Projectile::update(float delta)
 
 void Projectile::OnMissed()
 {
-	getParent()->removeChild(this);
+	removeFromParent();
 }
