@@ -72,12 +72,41 @@ void Map::OnPlayerMoved()
 }
 
 
+void Map::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
+{
+	ShootGround((CCTouch*)(pTouches->anyObject()));
+	CCLayer::ccTouchesEnded(pTouches, pEvent);
+}
+
+
+void Map::ccTouchesMoved(CCSet *pTouches, CCEvent *pEvent)
+{
+	ShootGround((CCTouch*)(pTouches->anyObject()));
+	CCLayer::ccTouchesEnded(pTouches, pEvent);
+}
+
+
 void Map::ccTouchesEnded(CCSet *pTouches, CCEvent *pEvent)
 {
-	CCTouch * touch = (CCTouch*)(pTouches->anyObject());
-	CCPoint target = convertToNodeSpace(touch->getLocation());
-	
-	m_pPlayer->ShootTo(target);
-
+	ShootGround((CCTouch*)(pTouches->anyObject()));
 	CCLayer::ccTouchesEnded(pTouches, pEvent);
+}
+
+
+void Map::ShootGround(CCTouch * touch)
+{
+	const CCPoint touchLocation = touch->getLocation();
+	ShootGround(&touchLocation);
+}
+
+
+void Map::ShootGround(const CCPoint * windowCoord)
+{
+	if (NULL != windowCoord)
+	{
+		m_LastShootPoint = (*windowCoord);
+	}
+
+	CCPoint target = convertToNodeSpace(m_LastShootPoint);
+	m_pPlayer->ShootTo(target);
 }

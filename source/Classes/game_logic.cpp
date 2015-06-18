@@ -54,7 +54,7 @@ void GameLogic::CreateEnemies()
 	const CCSize mapSize = g_Map->getContentSize();
 	srand(TimeInMilliseconds());
 
-	for (uint i = 0; i < 100; ++i)
+	for (uint i = 0; i < 500; ++i)
 	{
 		Enemy * enemy = Enemy::create();
 		enemy->setPositionX((((float)rand() / 32768.f) - 0.5f) * mapSize.width);

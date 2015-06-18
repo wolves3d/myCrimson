@@ -29,6 +29,7 @@ typedef Enemy Unit;
 
 // Singletons
 extern Map * g_Map;
+extern Player * g_Player;
 extern GameLogic * g_GameLogic;
 
 // Custom math

@@ -4,10 +4,13 @@
 #include "weapon.h"
 
 
+Player * g_Player = NULL;
+
+
 Player::Player()
 	: m_Weapon(NULL)
 {
-
+	g_Player = this;
 }
 
 
@@ -63,6 +66,12 @@ void Player::HandleKeyboardInput()
 		playerOffset.x += m_MoveStep;
 	}
 
+	// Fire
+	if ((0x80 & GetKeyState(VK_LBUTTON)) || (0x80 & GetKeyState(VK_RCONTROL)))
+	{
+		g_Map->ShootGround((CCPoint *)NULL);
+	}
+	
 
 	// early exit?
 	if (0 == playerOffset.getLengthSq())
