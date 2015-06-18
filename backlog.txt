@@ -1,10 +1,17 @@
 TO DO:
-# Shooting
+# CHECK MAIL!!!
+# DO NOT CRASH!!!
+# Perks!
 # Enemies moving (wandering)
 # Bullet vs enemy (obstacles too) collission
 # Enemy vs player collision
 # Enemy AI - player chasing
+# More weapons
+# Batch optimisation
+# Collision optimisation
+# Enemy flow optimisation
 
 DONE:
+# Shooting
 # Moveable player
 # Scrollable map (3x3 screen)

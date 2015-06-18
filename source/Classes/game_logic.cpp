@@ -54,14 +54,15 @@ void GameLogic::CreateEnemies()
 	const CCSize mapSize = g_Map->getContentSize();
 	srand(TimeInMilliseconds());
 
-	for (uint i = 0; i < 20; ++i)
+	for (uint i = 0; i < 100; ++i)
 	{
 		Enemy * enemy = Enemy::create();
-		enemy->setPositionX((float)rand() / 32768.f * mapSize.width);
-		enemy->setPositionY((float)rand() / 32768.f * mapSize.height);
+		enemy->setPositionX((((float)rand() / 32768.f) - 0.5f) * mapSize.width);
+		enemy->setPositionY((((float)rand() / 32768.f) - 0.5f) * mapSize.height);
 		g_Map->addChild(enemy);
 
 		m_EnemyArray->addObject(enemy);
+		enemy->StartAI();
 	}
 }
 
@@ -96,7 +97,7 @@ void GameLogic::update(float delta)
 			if (true == enemy->HitTest(projectile))
 			{
 				// FIXME: One bullet - one hit?
-				break;
+				//break;
 			}
 		}
 	}

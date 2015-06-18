@@ -15,9 +15,6 @@
 #include "cocos2d.h"
 using namespace cocos2d;
 
-// short type names
-typedef unsigned int uint;
-
 // Forward declarations
 class GameLogic;
 class Map;
@@ -25,6 +22,10 @@ class Player;
 class Enemy;
 class Weapon;
 class Projectile;
+
+// short type names
+typedef unsigned int uint;
+typedef Enemy Unit;
 
 // Singletons
 extern Map * g_Map;

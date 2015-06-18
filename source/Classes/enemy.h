@@ -7,6 +7,7 @@ class Enemy : public CCNode
 public:
 	CREATE_FUNC(Enemy);
 	bool HitTest(Projectile * projectile);
+	void StartAI();
 
 private:
 	virtual bool init();
