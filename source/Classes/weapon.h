@@ -13,6 +13,7 @@ private:
 	bool IsCooldown() const;
 	virtual uint GetCooldownTime() const { return 150; }
 	virtual float GetProjectileSpeed() const { return 650.0f;  } // points per second
+	virtual float GetShootDistance() { return 2000.0f;  }
 
 	uint m_LastShotTime;
 };

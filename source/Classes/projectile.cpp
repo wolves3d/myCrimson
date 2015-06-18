@@ -16,22 +16,24 @@ bool Projectile::init()
 	}
 
 	addChild(pSprite);
-	scheduleUpdate();
 	return true;
 }
 
 
-void Projectile::Go(const CCPoint & target, float speed)
+void Projectile::Go(CCPoint target, float speed, float maxDistance)
 {
 	CCPoint targetDir = ccpSub(target, getPosition());
 	const float shootDistance = targetDir.getLength();
 
 	// Set start projectile rotation
-	targetDir.normalize();
+	targetDir = targetDir.normalize();
 	const float angle = -atan2f(targetDir.y, targetDir.x);
 	setRotation(RADIAN_TO_DEGREE(angle));	
 
 	const float flyTime = (shootDistance / speed);
+
+	// Override target
+	target = ccpAdd(getPosition(), ccpMult(targetDir, maxDistance));
 
 	CCAction * action = CCSequence::createWithTwoActions(
 		CCMoveTo::create(flyTime, target),
@@ -41,12 +43,6 @@ void Projectile::Go(const CCPoint & target, float speed)
 	{
 		runAction(action);
 	}
-}
-
-
-void Projectile::update(float delta)
-{
-
 }
 
 

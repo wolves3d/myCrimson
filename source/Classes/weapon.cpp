@@ -33,7 +33,11 @@ bool Weapon::Fire(const CCPoint & origin, const CCPoint & target)
 	
 	g_Map->addChild(bullet);
 	bullet->setPosition(origin);
-	bullet->Go(target, GetProjectileSpeed());
+
+	bullet->Go(
+		target,
+		GetProjectileSpeed(),
+		GetShootDistance());
 
 	g_GameLogic->OnProjectileCreated(bullet);
 	

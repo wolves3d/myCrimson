@@ -6,11 +6,10 @@ class Projectile : public CCNode
 {
 public:
 	CREATE_FUNC(Projectile);
-	void Go(const CCPoint & target, float speed);
+	void Go(CCPoint target, float speed, float maxDistance);
 
 private:
 	virtual bool init();
-	virtual void update(float delta);
 
 	virtual void OnMissed();
 };
