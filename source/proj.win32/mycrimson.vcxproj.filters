@@ -9,6 +9,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Classes\ai">
+      <UniqueIdentifier>{bb6fb673-4f35-4fca-b566-200218956ea7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -38,6 +41,12 @@
     </ClCompile>
     <ClCompile Include="..\Classes\enemy.cpp">
       <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\base_ai.cpp">
+      <Filter>Classes\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\wandering_task.cpp">
+      <Filter>Classes\ai</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +80,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\enemy.h">
       <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\base_ai.h">
+      <Filter>Classes\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\wandering_task.h">
+      <Filter>Classes\ai</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
