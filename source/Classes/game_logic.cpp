@@ -4,6 +4,7 @@
 #include "map.h"
 #include "enemy.h"
 #include "projectile.h"
+#include "quad_tree.h"
 
 
 GameLogic * g_GameLogic = NULL;
@@ -11,6 +12,7 @@ GameLogic * g_GameLogic = NULL;
 
 GameLogic::GameLogic()
 	: m_ProjectileArray(NULL)
+	, m_QuadTree(NULL)
 {
 	g_GameLogic = this;
 }
@@ -22,18 +24,21 @@ bool GameLogic::init()
 		return false;
 
 	m_ProjectileArray = CCArray::create();
-	m_ProjectileArray->retain(); // FIXME: memory leak
+	m_ProjectileArray->retain();
 
 	m_EnemyArray = CCArray::create();
-	m_EnemyArray->retain(); // FIXME: memory leak
+	m_EnemyArray->retain();
 
 	Map * mapLayer = Map::create();
 	if (NULL != mapLayer)
 	{
+		const CCSize mapSize(g_Map->getContentSize());
+		m_QuadTree = new QuadTree(mapSize.width, mapSize.height, 256);
+
 		const CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 		const CCPoint halfScreen(0.5f * winSize.width, 0.5f * winSize.height);
 		mapLayer->setPosition(halfScreen);
-		addChild(mapLayer);
+		addChild(mapLayer, -1); // negative z-order to make visible gamelogic debug draws
 
 		Player * playerNode = Player::create();
 		if (NULL != playerNode)
@@ -49,12 +54,24 @@ bool GameLogic::init()
 }
 
 
+void GameLogic::free()
+{
+	// FIXME: memory leak, never called
+
+	CC_SAFE_DELETE(m_QuadTree);
+	m_QuadTree = NULL;
+
+	CC_SAFE_RELEASE_NULL(m_EnemyArray);
+	CC_SAFE_RELEASE_NULL(m_ProjectileArray);
+}
+
+
 void GameLogic::CreateEnemies()
 {
 	const CCSize mapSize = g_Map->getContentSize();
 	srand(TimeInMilliseconds());
 
-	for (uint i = 0; i < 500; ++i)
+	for (uint i = 0; i < 100; ++i)
 	{
 		Enemy * enemy = Enemy::create();
 		enemy->setPositionX((((float)rand() / 32768.f) - 0.5f) * mapSize.width);
@@ -76,6 +93,13 @@ void GameLogic::OnProjectileCreated(Projectile * projectile)
 void GameLogic::OnProjectileDeleted(Projectile * projectile)
 {
 	m_ProjectileArray->removeObject(projectile);
+}
+
+
+void GameLogic::draw()
+{
+	CCNode::draw();
+	m_QuadTree->DebugDraw(g_Map);
 }
 
 

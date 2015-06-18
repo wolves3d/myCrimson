@@ -14,6 +14,7 @@
 #include "CCStdC.h"
 #include "cocos2d.h"
 using namespace cocos2d;
+using namespace std;
 
 // Forward declarations
 class GameLogic;
@@ -22,6 +23,7 @@ class Player;
 class Enemy;
 class Weapon;
 class Projectile;
+class QuadTree;
 
 // short type names
 typedef unsigned int uint;
