@@ -25,14 +25,14 @@ void WanderingTask::OnSubTaskEnded(BaseAI * subTask)
 
 void WanderingTask::GoSomewhere()
 {
-	const float radius = 0;
+	const float radius = 50;
 	const CCPoint enemyPos(GetUnit()->getPosition());
 
-// 	const CCPoint vectorToPlayer = ccpMult(
-// 		ccpSub(g_Player->getPosition(), enemyPos).normalize(),
-// 		0.25f * radius);
+	const CCPoint vectorToPlayer = ccpMult(
+		ccpSub(g_Player->getPosition(), enemyPos).normalize(),
+		0.25f * radius);
 
-	const CCPoint vectorToPlayer(CCPointZero);
+//	const CCPoint vectorToPlayer(CCPointZero);
 
 	CCPoint nextTarget = ccpAdd(enemyPos, vectorToPlayer);
 	nextTarget.x += ((((float)rand() / 32768.f) - 0.5f) * radius);

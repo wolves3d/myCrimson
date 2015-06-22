@@ -77,7 +77,7 @@ void BaseAI::MoveTo(const CCPoint & target)
 
 	CCPoint targetVector = ccpSub(target, curPosition);
 	const float moveDistance = targetVector.getLength();
-	const float moveTime = (moveDistance / 50.0f);
+	const float moveTime = (moveDistance / 20.0f); // FIXME: magic number
 
 	/*
 	// Set start projectile rotation
