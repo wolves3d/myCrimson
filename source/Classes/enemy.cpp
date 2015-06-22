@@ -8,23 +8,33 @@
 
 Enemy::Enemy()
 	: m_GridIndex(-1)
+	, m_Radius(15)
+	, m_Weight(0.1f)
 {}
 
 
-bool Enemy::init()
+Enemy * Enemy::create(const char * SpriteName)
 {
-	if (false != CCNode::init())
+	Enemy * Result = new Enemy();
+	if (NULL != Result)
 	{
-		CCSprite* pSprite = CCSprite::create("enemy.png");
-		if (NULL != pSprite)
+		if (true == Result->init())
 		{
-			addChild(pSprite);
+			Result->autorelease();
+
+			CCSprite* pSprite = CCSprite::create(SpriteName);
+			if (NULL != pSprite)
+			{
+				Result->addChild(pSprite);
+			}
+
+			return Result;
 		}
 
-		return true;
+		delete Result;
 	}
 
-	return false;
+	return NULL;
 }
 
 
@@ -53,7 +63,8 @@ bool Enemy::HitTest(Projectile * projectile)
 
 void Enemy::OnDie()
 {
-	stopAllActions();
+	stopAllActions(); // Stop AI
+	removeAllChildren(); // Remove any AI states
 
 	Animation * DeathVFX = Animation::create();
 	DeathVFX->setPosition(getPosition());

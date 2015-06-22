@@ -6,11 +6,15 @@ class Enemy
 	: public CCNode
 {
 public:
-	CREATE_FUNC(Enemy);
+	static Enemy * create(const char * SpriteName);
 	bool HitTest(Projectile * projectile);
 	void StartAI();
-	virtual float GetRadius() const { return 15;  }
-	virtual float GetWeight() const { return 0.1f; }
+
+	void SetRadius(float Radius) { m_Radius = Radius; }
+	float GetRadius() const { return m_Radius;  }
+
+	void SetWeight(float Weight) { m_Weight = Weight; }
+	float GetWeight() const { return m_Weight; }
 
 	void OnDie();
 
@@ -22,8 +26,10 @@ protected:
 
 private:
 	void RemoveFromMap();
-	virtual bool init();
+	//virtual bool init();
 
+	float m_Weight;
+	float m_Radius;
 	int m_GridIndex;
 };
 
