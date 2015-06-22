@@ -68,13 +68,28 @@ void GameLogic::CreateEnemies()
 
 	for (uint i = 0; i < enemyCount; ++i)
 	{
-		Enemy * enemy = Enemy::create();
-		enemy->setPositionX((((float)rand() / 32768.f) - 0.5f) * (mapSize.width * 0.9f));
-		enemy->setPositionY((((float)rand() / 32768.f) - 0.5f) * (mapSize.height * 0.9f) );
+		Enemy * enemy = Enemy::create("enemy.png");
+		enemy->setPositionX(RND_INTERVAL(-0.5f, 0.5f) * (mapSize.width * 0.9f));
+		enemy->setPositionY(RND_INTERVAL(-0.5f, 0.5f) * (mapSize.height * 0.9f));
 		
 		OnAddUnit(enemy);
 
 		enemy->StartAI();
+	}
+
+	// -------------
+
+	const uint rockCount = 20;
+
+	for (uint i = 0; i < rockCount; ++i)
+	{
+		Enemy * rock = Enemy::create("rock.png");
+		rock->setPositionX(RND_INTERVAL(-0.5f, 0.5f) * (mapSize.width * 0.9f));
+		rock->setPositionY(RND_INTERVAL(-0.5f, 0.5f) * (mapSize.height * 0.9f));
+
+		rock->SetWeight(1.0f);
+		rock->SetRadius(65);
+		OnAddUnit(rock);
 	}
 }
 
