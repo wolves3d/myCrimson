@@ -38,7 +38,7 @@ bool Enemy::HitTest(Projectile * projectile)
 {
 	const float enemyRadiusSq = powf(GetRadius(), 2);
 
-	// FIXME: fast bullets can walh through
+	// FIXME: fast bullets can walk through
 	if (enemyRadiusSq > getPosition().getDistanceSq(projectile->getPosition()))
 	{
 		// hit!
