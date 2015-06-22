@@ -39,7 +39,7 @@ bool Weapon::Fire(const CCPoint & origin, const CCPoint & target)
 		GetProjectileSpeed(),
 		GetShootDistance());
 
-	g_GameLogic->OnProjectileCreated(bullet);
+	g_GameLogic->OnAddUnit(bullet);
 	
 	return true;
 }

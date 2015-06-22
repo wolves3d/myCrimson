@@ -47,12 +47,12 @@ int UniformGrid::GetCellIndex(const CCPoint & point)
 
 void UniformGrid::AddUnit(Unit * unit)
 {
-	const int currentIndex = unit->GetGridIndex();
-	const int newIndex = GetCellIndex(unit->getPosition());
+	const int CurrentIndex = unit->GetGridIndex();
+	const int NewIndex = GetCellIndex(unit->getPosition());
 
-	if (-1 != currentIndex)
+	if (-1 != CurrentIndex)
 	{
-		if (newIndex == currentIndex)
+		if (NewIndex == CurrentIndex)
 		{
 			// Nothing to do, already in right place
 			return;
@@ -64,8 +64,8 @@ void UniformGrid::AddUnit(Unit * unit)
 		}
 	}
 
-	m_GridArray[newIndex].push_back(unit);
-	unit->SetGridIndex(newIndex);
+	m_GridArray[NewIndex].push_back(unit);
+	unit->SetGridIndex(NewIndex);
 }
 
 
@@ -77,6 +77,8 @@ void UniformGrid::RemoveUnit(Unit * unit)
 		UnitVector * cellList = (m_GridArray + Idx);
 		UnitVector::iterator it = cellList->begin();
 
+		CC_ASSERT(cellList->size() > 0);
+
 		while (cellList->end() != it)
 		{
 			if (unit == (*it))
@@ -87,6 +89,10 @@ void UniformGrid::RemoveUnit(Unit * unit)
 
 			++it;
 		}
+
+
+		// Unit not found
+		CC_ASSERT(false);
 	}
 }
 

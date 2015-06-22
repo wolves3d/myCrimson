@@ -2,41 +2,27 @@
 #include "game_logic.h"
 #include "map.h"
 #include "projectile/grenade.h"
+#include "animation.h"
 
 
-void Grenade::KickUnit(Unit * unit, const CCPoint & blastDir)
+void Grenade::KickUnit(Unit * UnitNode, const CCPoint & BlastDir)
 {
-	/*
-	unit->setPosition(ccpAdd(unit->getPosition(), blastDir));
+	UnitNode->stopAllActions();
+	g_GameLogic->OnRemoveUnit(UnitNode, true);
 
-	CCPoint targetDir = ccpSub(target, getPosition());
-	const float shootDistance = targetDir.getLength();
+	const float flyTime = 0.4f + RND_INTERVAL(-0.2f, +0.2f);
+	const CCPoint UnitOffset = ccpMult(BlastDir, RND_INTERVAL(0.75f, 1.5f));
 
-	// Set start projectile rotation
-	targetDir = targetDir.normalize();
-	const float angle = -atan2f(targetDir.y, targetDir.x);
-	setRotation(RADIAN_TO_DEGREE(angle));
-
-	const float flyTime = (shootDistance / speed);
-
-	// Override target
-	target = ccpAdd(getPosition(), ccpMult(targetDir, maxDistance));
-	*/
+	UnitNode->runAction(CCSequence::createWithTwoActions(
+		CCMoveTo::create(flyTime, ccpAdd(UnitNode->getPosition(), UnitOffset)),
+		CCCallFunc::create(UnitNode, callfunc_selector(Enemy::OnDie))));
 
 
+	// rotate while flying
+	UnitNode->runAction(CCRotateBy::create(flyTime, 90 + RND_INTERVAL(-180, 180)));
 
-	CCPoint unitOffset = ccpMult(blastDir, RND_INTERVAL(0.75f, 1.5f));
-
-	const float flyTime = 0.4f;
-
-	unit->runAction(
-		CCEaseSineOut::create(CCMoveTo::create(flyTime, ccpAdd(unit->getPosition(), unitOffset))));
-
-	//unit->runAction(CCRotateBy::create(flyTime, (RND_FLOAT > 0.5f) ? 360 : (-360)));
-	unit->runAction(CCRotateBy::create(flyTime, 90 + RND_INTERVAL(-180, 180)));
-
-
-	unit->runAction(
+	// scale while flying
+	UnitNode->runAction(
 		CCEaseSineOut::create(
 		CCSequence::createWithTwoActions(
 		CCScaleTo::create(0.5f * flyTime, 1.25f),
@@ -50,12 +36,20 @@ void Grenade::OnMissed()
 	const float explosionRadiusSq = (explosionRadius * explosionRadius);
 	const CCPoint explosionCenter(getPosition());
 
+	Unit * GrenadeNode = this;
 	UnitVector * unitList = g_GameLogic->GetUnitsInRadius(explosionCenter, explosionRadius);
 
 	uint i = unitList->size();
 	while (i--)
 	{
 		Unit * unit = unitList->at(i);
+
+		if (GrenadeNode == unit)
+		{
+			// Do not affect projectile itself
+			continue;
+		}
+
 		const CCPoint unitPos(unit->getPosition());
 
 		if (explosionRadiusSq > explosionCenter.getDistanceSq(unitPos))
@@ -70,83 +64,11 @@ void Grenade::OnMissed()
 	}
 
 
+	Animation * ExplosionVFX = Animation::create();
+	ExplosionVFX->Play("ma-eff-mutation", NULL, 30);
 
-
-	// =========================================================================
-
-	int loopCount = 1;
-	//string animName = "resources/ipadhd/explosion.plist";
-	string animName = "ma-eff-mutation";
-
-	CCSpriteFrameCache * frameCache = CCSpriteFrameCache::sharedSpriteFrameCache();
-	frameCache->addSpriteFramesWithFile((animName + ".plist").c_str());
-
-	char buff[1024];
-
-	CCAnimation * result = NULL;
-	CCArray * frameArray = NULL;
-
-	for (uint i = 0; (true); ++i)
-	{
-		sprintf(buff, "%s_%02d.png", animName.c_str(), i);
-		CCSpriteFrame * frame = frameCache->spriteFrameByName(buff);
-
-		if (NULL == frame)
-			break;
-
-		if (NULL == frameArray)
-			frameArray = CCArray::create();
-
-		frameArray->addObject(frame);
-	}
-
-	if (NULL != frameArray)
-	{
-		const float frameDelay = 1.0f / 30;
-		result = CCAnimation::createWithSpriteFrames(frameArray, frameDelay);
-
-		// 		if (NULL != result)
-		// 			result->retain();
-
-		CCAnimate* animate = CCAnimate::create(result);
-
-		CCAction * action;
-		if (loopCount >= 0)
-		//if (false)
-		{
-			CCArray * actionList = CCArray::create();
-
-			actionList->addObject(
-				CCRepeat::create(animate, loopCount));
-
-			actionList->addObject(
-				CCRemoveSelf::create());
-
-			/*
-			if (NULL != callBack)
-			{
-			actionList->addObject(callBack);
-			}
-
-			actionList->addObject(
-			CCCallFunc::create(sprite, callfunc_selector(CCSpriteEx::OnAnimationEnded)));
-			*/
-			action = CCSequence::create(actionList);
-		}
-		else
-		{
-			action = CCRepeatForever::create(animate);
-		}
-
-
-		CCSprite * explosionEffectNode = CCSprite::create();
-		g_Map->addChild(explosionEffectNode);
-		explosionEffectNode->setPosition(getPosition());
-
-		explosionEffectNode->runAction(action);
-	}
-
-
+	g_Map->addChild(ExplosionVFX);
+	ExplosionVFX->setPosition(getPosition());
 
 	Projectile::OnMissed();
 }

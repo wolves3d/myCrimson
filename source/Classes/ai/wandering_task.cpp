@@ -20,8 +20,6 @@ void WanderingTask::OnBegin()
 
 void WanderingTask::update(float delta)
 {
-	g_GameLogic->OnEnemyMoved(GetUnit());
-
 	if (false == m_IsFixingRotation)
 	{
 		Unit * UnitNode = GetUnit();

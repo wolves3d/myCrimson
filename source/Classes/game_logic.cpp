@@ -10,7 +10,7 @@ GameLogic * g_GameLogic = NULL;
 
 
 GameLogic::GameLogic()
-	: m_ProjectileArray(NULL)
+: m_EnemyArray(NULL)
 {
 	g_GameLogic = this;
 }
@@ -20,9 +20,6 @@ bool GameLogic::init()
 {
 	if (false == CCNode::init())
 		return false;
-
-	m_ProjectileArray = CCArray::create();
-	m_ProjectileArray->retain();
 
 	m_EnemyArray = CCArray::create();
 	m_EnemyArray->retain();
@@ -58,7 +55,6 @@ void GameLogic::free()
 	// FIXME: memory leak, GameLogic::free() never called
 
 	CC_SAFE_RELEASE_NULL(m_EnemyArray);
-	CC_SAFE_RELEASE_NULL(m_ProjectileArray);
 }
 
 
@@ -91,18 +87,15 @@ void GameLogic::OnAddUnit(Unit * unit)
 }
 
 
-void GameLogic::OnProjectileCreated(Projectile * projectile)
+void GameLogic::OnRemoveUnit(Unit * UnitNode, bool LeaveBodyFlag)
 {
-	m_ProjectileArray->addObject(projectile);
-	OnAddUnit(projectile);
-}
+	m_EnemyArray->removeObject(UnitNode);
+	m_UniformGrid.RemoveUnit(UnitNode);
 
-
-void GameLogic::OnProjectileDeleted(Projectile * projectile)
-{
-	m_ProjectileArray->removeObject(projectile);
-	m_UniformGrid.RemoveUnit(projectile);
-	m_EnemyArray->removeObject(projectile);
+	if (false == LeaveBodyFlag)
+	{
+		g_Map->removeChild(UnitNode);
+	}
 }
 
 

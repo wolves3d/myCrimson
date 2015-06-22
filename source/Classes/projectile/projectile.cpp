@@ -48,6 +48,5 @@ void Projectile::Go(CCPoint target, float speed, float maxDistance)
 
 void Projectile::OnMissed()
 {
-	g_GameLogic->OnProjectileDeleted(this);
-	removeFromParent();
+	g_GameLogic->OnRemoveUnit(this);
 }
