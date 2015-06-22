@@ -28,7 +28,7 @@ bool GameLogic::init()
 	if (NULL != mapLayer)
 	{
 		const CCSize mapSize(g_Map->getContentSize());
-		m_UniformGrid.InitGridMap(ccpFromSize(mapSize), 32);
+		m_UniformGrid.InitGridMap(ccpFromSize(mapSize), 64);
 
 		const CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 		const CCPoint halfScreen(0.5f * winSize.width, 0.5f * winSize.height);
@@ -60,7 +60,7 @@ void GameLogic::free()
 
 void GameLogic::CreateEnemies()
 {
-	const uint enemyCount = 1500;
+	const uint enemyCount = 2000;
 	const CCSize mapSize = g_Map->getContentSize();
 	srand(TimeInMilliseconds());
 
@@ -88,7 +88,7 @@ void GameLogic::CreateEnemies()
 		rock->setPositionY(RND_INTERVAL(-0.5f, 0.5f) * (mapSize.height * 0.9f));
 
 		rock->SetWeight(1.0f);
-		rock->SetRadius(65);
+		rock->SetRadius(45);
 		OnAddUnit(rock);
 	}
 }
