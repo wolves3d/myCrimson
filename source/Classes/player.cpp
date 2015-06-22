@@ -11,6 +11,8 @@ Player::Player()
 	: m_Weapon(NULL)
 {
 	g_Player = this;
+	SetRadius(42);
+	SetWeight(1.0f);
 }
 
 

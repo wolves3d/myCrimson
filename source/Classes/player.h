@@ -18,8 +18,6 @@ private:
 	Player();
 	virtual bool init();
 	virtual void update(float delta);
-	virtual float GetRadius() const { return 42; }
-	virtual float GetWeight() const { return 1.0f; }
 
 	void HandleKeyboardInput();
 	void SetCurrentWeapon(Weapon * weapon);

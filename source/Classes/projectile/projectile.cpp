@@ -8,6 +8,9 @@ bool Projectile::init()
 	if (false == CCNode::init())
 		return false;
 
+	SetRadius(67);
+	SetWeight(1.0f);
+
 	CCSprite* pSprite = CCSprite::create("bullet_bill_yids.png");
 
 	if (NULL == pSprite)

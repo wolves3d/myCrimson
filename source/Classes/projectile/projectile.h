@@ -14,10 +14,6 @@ public:
 protected:
 	virtual bool init();
 	virtual void OnMissed();
-
-private:
-	virtual float GetRadius() const { return 67; }
-	virtual float GetWeight() const { return 1.0f; }
 };
 
 
