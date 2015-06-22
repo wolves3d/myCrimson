@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "map.h"
 #include "weapon.h"
-#include "projectile.h"
+#include "projectile/grenade.h"
 #include "game_logic.h"
 
 
@@ -25,13 +25,13 @@ bool Weapon::Fire(const CCPoint & origin, const CCPoint & target)
 	if (true == IsCooldown())
 		return false;
 	
-	Projectile * bullet = Projectile::create();
+	Projectile * bullet = Grenade::create();
 	if (NULL == bullet)
 		return false;
 
 	m_LastShotTime = TimeInMilliseconds();
 	
-	g_Map->addChild(bullet);
+	//g_Map->addChild(bullet);
 	bullet->setPosition(origin);
 
 	bullet->Go(

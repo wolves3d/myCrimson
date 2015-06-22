@@ -2,7 +2,10 @@
 #define __player_h_included__
 
 
-class Player : public CCNode
+#include "enemy.h"
+
+
+class Player : public Unit
 {
 	// FIXME: visualStudio compiler needs full project rebuild to change this value
 	const float m_MoveStep = 5.0f;
@@ -15,6 +18,8 @@ private:
 	Player();
 	virtual bool init();
 	virtual void update(float delta);
+	virtual float GetRadius() const { return 42; }
+	virtual float GetWeight() const { return 1.0f; }
 
 	void HandleKeyboardInput();
 	void SetCurrentWeapon(Weapon * weapon);

@@ -35,18 +35,7 @@ bool Map::init()
 
 void Map::MapInit(Player * player)
 {
-	if (NULL != m_pPlayer)
-	{
-		removeChild(m_pPlayer);
-	}
-
 	m_pPlayer = player;
-
-	if (NULL != m_pPlayer)
-	{
-		addChild(m_pPlayer);
-	}
-
 	m_ZeroPoint = getPosition();
 }
 
