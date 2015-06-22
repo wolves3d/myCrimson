@@ -3,6 +3,7 @@
 #include "map.h"
 #include "projectile/grenade.h"
 #include "animation.h"
+#include "player.h"
 
 
 void Grenade::KickUnit(Unit * UnitNode, const CCPoint & BlastDir)
@@ -37,6 +38,7 @@ void Grenade::OnMissed()
 	const CCPoint explosionCenter(getPosition());
 
 	Unit * GrenadeNode = this;
+	Unit * PlayerNode = g_Player;
 	UnitVector * unitList = g_GameLogic->GetUnitsInRadius(explosionCenter, explosionRadius);
 
 	uint i = unitList->size();
@@ -44,9 +46,9 @@ void Grenade::OnMissed()
 	{
 		Unit * unit = unitList->at(i);
 
-		if (GrenadeNode == unit)
+		if ((GrenadeNode == unit) || (PlayerNode == unit))
 		{
-			// Do not affect projectile itself
+			// Do not affect projectile itself and player
 			continue;
 		}
 

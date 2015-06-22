@@ -11,9 +11,6 @@ public:
 	CREATE_FUNC(Grenade);
 
 private:
-	
-	virtual float GetRadius() const { return 67; }
-	virtual float GetWeight() const { return 1.0f; }
 
 	void KickUnit(Unit * UnitNode, const CCPoint & BlastDir);
 	virtual void OnMissed();
