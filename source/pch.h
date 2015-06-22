@@ -23,11 +23,11 @@ class Player;
 class Enemy;
 class Weapon;
 class Projectile;
-class QuadTree;
 
 // short type names
 typedef unsigned int uint;
 typedef Enemy Unit;
+typedef vector <Unit *> UnitVector;
 
 // Singletons
 extern Map * g_Map;
@@ -36,6 +36,10 @@ extern GameLogic * g_GameLogic;
 
 // Custom math
 #define RADIAN_TO_DEGREE(X) (180.0f / M_PI * (X))
+
+#define RND_FLOAT ((float)rand() / 32768.f)
+#define RND_INTERVAL(FROM, TO) ((FROM) + (RND_FLOAT * ((TO) - (FROM))))
+
 
 // general utils
 unsigned int TimeInMilliseconds();

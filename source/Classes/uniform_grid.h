@@ -2,6 +2,12 @@
 #define __uniform_grid_h_included__
 
 
+struct SortedListDelegate
+{
+	virtual void ProcessColliders(UnitVector * unitVector) = 0;
+};
+
+
 class UniformGrid
 {
 public:

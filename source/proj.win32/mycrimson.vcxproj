@@ -133,9 +133,9 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
     <ClCompile Include="..\Classes\map.cpp" />
     <ClCompile Include="..\Classes\player.cpp" />
-    <ClCompile Include="..\Classes\projectile.cpp" />
-    <ClCompile Include="..\Classes\quad_tree.cpp" />
-    <ClCompile Include="..\Classes\quad_tree_cell.cpp" />
+    <ClCompile Include="..\Classes\projectile\grenade.cpp" />
+    <ClCompile Include="..\Classes\projectile\projectile.cpp" />
+    <ClCompile Include="..\Classes\uniform_grid.cpp" />
     <ClCompile Include="..\Classes\weapon.cpp" />
     <ClCompile Include="..\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -153,9 +153,9 @@
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
     <ClInclude Include="..\Classes\map.h" />
     <ClInclude Include="..\Classes\player.h" />
-    <ClInclude Include="..\Classes\projectile.h" />
-    <ClInclude Include="..\Classes\quad_tree.h" />
-    <ClInclude Include="..\Classes\quad_tree_cell.h" />
+    <ClInclude Include="..\Classes\projectile\grenade.h" />
+    <ClInclude Include="..\Classes\projectile\projectile.h" />
+    <ClInclude Include="..\Classes\uniform_grid.h" />
     <ClInclude Include="..\Classes\weapon.h" />
     <ClInclude Include="..\pch.h" />
     <ClInclude Include="main.h" />

@@ -3,8 +3,7 @@
 #include "player.h"
 #include "map.h"
 #include "enemy.h"
-#include "projectile.h"
-#include "quad_tree.h"
+#include "projectile/projectile.h"
 
 
 GameLogic * g_GameLogic = NULL;
@@ -12,7 +11,6 @@ GameLogic * g_GameLogic = NULL;
 
 GameLogic::GameLogic()
 	: m_ProjectileArray(NULL)
-	, m_QuadTree(NULL)
 {
 	g_GameLogic = this;
 }
@@ -33,7 +31,7 @@ bool GameLogic::init()
 	if (NULL != mapLayer)
 	{
 		const CCSize mapSize(g_Map->getContentSize());
-		m_QuadTree = new QuadTree(mapSize.width, mapSize.height, 256);
+		m_UniformGrid.InitGridMap(ccpFromSize(mapSize), 32);
 
 		const CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 		const CCPoint halfScreen(0.5f * winSize.width, 0.5f * winSize.height);
@@ -44,6 +42,7 @@ bool GameLogic::init()
 		if (NULL != playerNode)
 		{
 			mapLayer->MapInit(playerNode);
+			OnAddUnit(playerNode);
 		}
 	}
 
@@ -56,10 +55,7 @@ bool GameLogic::init()
 
 void GameLogic::free()
 {
-	// FIXME: memory leak, never called
-
-	CC_SAFE_DELETE(m_QuadTree);
-	m_QuadTree = NULL;
+	// FIXME: memory leak, GameLogic::free() never called
 
 	CC_SAFE_RELEASE_NULL(m_EnemyArray);
 	CC_SAFE_RELEASE_NULL(m_ProjectileArray);
@@ -68,38 +64,52 @@ void GameLogic::free()
 
 void GameLogic::CreateEnemies()
 {
+	const uint enemyCount = 1500;
 	const CCSize mapSize = g_Map->getContentSize();
 	srand(TimeInMilliseconds());
 
-	for (uint i = 0; i < 100; ++i)
+	m_UnitListForCallbacks.reserve(enemyCount);
+
+	for (uint i = 0; i < enemyCount; ++i)
 	{
 		Enemy * enemy = Enemy::create();
-		enemy->setPositionX((((float)rand() / 32768.f) - 0.5f) * mapSize.width);
-		enemy->setPositionY((((float)rand() / 32768.f) - 0.5f) * mapSize.height);
-		g_Map->addChild(enemy);
+		enemy->setPositionX((((float)rand() / 32768.f) - 0.5f) * (mapSize.width * 0.9f));
+		enemy->setPositionY((((float)rand() / 32768.f) - 0.5f) * (mapSize.height * 0.9f) );
+		
+		OnAddUnit(enemy);
 
-		m_EnemyArray->addObject(enemy);
 		enemy->StartAI();
 	}
+}
+
+void GameLogic::OnAddUnit(Unit * unit)
+{
+	g_Map->addChild(unit);
+	m_EnemyArray->addObject(unit);
+
+	m_UniformGrid.AddUnit(unit);
 }
 
 
 void GameLogic::OnProjectileCreated(Projectile * projectile)
 {
 	m_ProjectileArray->addObject(projectile);
+	OnAddUnit(projectile);
 }
 
 
 void GameLogic::OnProjectileDeleted(Projectile * projectile)
 {
 	m_ProjectileArray->removeObject(projectile);
+	m_UniformGrid.RemoveUnit(projectile);
+	m_EnemyArray->removeObject(projectile);
 }
 
 
 void GameLogic::draw()
 {
 	CCNode::draw();
-	m_QuadTree->DebugDraw(g_Map);
+	//m_QuadTree->DebugDraw(g_Map);
 }
 
 
@@ -107,21 +117,52 @@ void GameLogic::update(float delta)
 {
 	CCNode::update(delta);
 
-	// FIXME: non optimal, refactor me
-	CCObject * projectileObj;
-	CCARRAY_FOREACH(m_ProjectileArray, projectileObj)
 	{
-		Projectile * projectile = (Projectile *)projectileObj;
+		m_UniformGrid.Collide(&m_UnitListForCallbacks, this);
+	}
 
-		// FIXME: non optimal, refactor me
-		uint c = m_EnemyArray->count();
-		while (c--)
+	//CCLog("collision test (%d) collisions detected %d", a, b);
+
+	uint c = m_EnemyArray->count();
+	while (c--)
+	{
+		Enemy * enemy = (Enemy *)m_EnemyArray->objectAtIndex(c);
+		OnEnemyMoved(enemy);
+	}
+	
+}
+
+
+void GameLogic::ProcessColliders(UnitVector * targetVector)
+{
+	const uint unitCount = targetVector->size();
+
+
+	for (uint i = 0; i < unitCount; ++i)
+	{
+		Unit * unitA = targetVector->at(i);
+
+		for (uint j = (i+1); j < unitCount; ++j)
 		{
-			Enemy * enemy = (Enemy *)m_EnemyArray->objectAtIndex(c);
-			if (true == enemy->HitTest(projectile))
+			Unit * unitB = targetVector->at(j);
+
+			const CCPoint posA(unitA->getPosition());
+			const CCPoint posB(unitB->getPosition());
+
+			const float radiusSum = unitA->GetRadius() + unitB->GetRadius();
+			const float minDistanceSq = (radiusSum * radiusSum);
+			const float actualDistance = posA.getDistanceSq(posB);
+
+			if (actualDistance < minDistanceSq)
 			{
-				// FIXME: One bullet - one hit?
-				//break;
+				// collision detected
+
+				const float penetrationDepth = -(ccpDistance(posA, posB) - radiusSum);
+				const CCPoint pushVector = ccpMult(ccpSub(posB, posA).normalize(), 0.1f * penetrationDepth);// .normalize(), 0.1f * penetrationDepth);
+
+				// pull objects
+				unitA->setPosition(ccpSub(posA, ccpMult(pushVector, (1.0f - unitA->GetWeight()))));
+				unitB->setPosition(ccpAdd(posB, ccpMult(pushVector, (1.0f - unitB->GetWeight()))));
 			}
 		}
 	}
@@ -132,4 +173,42 @@ void GameLogic::OnEnemyHit(Enemy * enemy, Projectile * projectile)
 {
 	m_EnemyArray->removeObject(enemy);
 	enemy->removeFromParent();
+}
+
+
+void GameLogic::OnEnemyMoved(Enemy * enemy)
+{
+	CCPoint halfMap = ccpMult(ccpFromSize(g_Map->getContentSize()), 0.45f);
+	CCPoint pos = enemy->getPosition();
+
+	if (pos.x < (-halfMap.x))
+	{
+		pos.x = -halfMap.x;
+	}
+	else if (pos.x > halfMap.x)
+	{
+		pos.x = halfMap.x;
+	}
+
+	if (pos.y < (-halfMap.y))
+	{
+		pos.y = -halfMap.y;
+	}
+	else if (pos.y > halfMap.y)
+	{
+		pos.y = halfMap.y;
+	}
+	
+	enemy->setPosition(pos);
+	m_UniformGrid.AddUnit(enemy); // will work fine
+}
+
+
+UnitVector * GameLogic::GetUnitsInRadius(const CCPoint & point, float radius)
+{
+	// FIXME: WARNING: will break collider - same vector used!
+	// FIXME: WARNING: do not call while in collide iteration!
+
+	m_UniformGrid.GetUnitsInRadius(&m_UnitListForCallbacks, point, radius);
+	return &m_UnitListForCallbacks;
 }

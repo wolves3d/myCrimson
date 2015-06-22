@@ -12,6 +12,9 @@
     <Filter Include="Classes\ai">
       <UniqueIdentifier>{bb6fb673-4f35-4fca-b566-200218956ea7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\projectile">
+      <UniqueIdentifier>{9bb28cc8-2ed0-400d-909e-304e47953aa6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
@@ -30,9 +33,6 @@
     <ClCompile Include="..\Classes\map.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\projectile.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\weapon.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
@@ -48,11 +48,14 @@
     <ClCompile Include="..\Classes\ai\wandering_task.cpp">
       <Filter>Classes\ai</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\quad_tree.cpp">
+    <ClCompile Include="..\Classes\uniform_grid.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\quad_tree_cell.cpp">
-      <Filter>Classes</Filter>
+    <ClCompile Include="..\Classes\projectile\projectile.cpp">
+      <Filter>Classes\projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\projectile\grenade.cpp">
+      <Filter>Classes\projectile</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,9 +78,6 @@
     <ClInclude Include="..\Classes\map.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\projectile.h">
-      <Filter>Classes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\weapon.h">
       <Filter>Classes</Filter>
     </ClInclude>
@@ -93,11 +93,14 @@
     <ClInclude Include="..\Classes\ai\wandering_task.h">
       <Filter>Classes\ai</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\quad_tree.h">
+    <ClInclude Include="..\Classes\uniform_grid.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\quad_tree_cell.h">
-      <Filter>Classes</Filter>
+    <ClInclude Include="..\Classes\projectile\projectile.h">
+      <Filter>Classes\projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\projectile\grenade.h">
+      <Filter>Classes\projectile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
