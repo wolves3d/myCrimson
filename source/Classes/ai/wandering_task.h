@@ -12,13 +12,16 @@ public:
 	CREATE_FUNC(WanderingTask);
 
 private:
-
+	WanderingTask();
 	virtual void update(float delta);
+
+	void GoSomewhere();
 
 	virtual void OnBegin();
 	virtual void OnSubTaskEnded(BaseAI * subTask);
+	virtual void OnFeet();
 
-	void GoSomewhere();
+	bool m_IsFixingRotation;
 };
 
 

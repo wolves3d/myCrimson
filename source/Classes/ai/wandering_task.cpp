@@ -4,6 +4,13 @@
 #include "game_logic.h"
 
 
+
+WanderingTask::WanderingTask()
+	: m_IsFixingRotation(false)
+{
+}
+
+
 void WanderingTask::OnBegin()
 {
 	GoSomewhere();
@@ -14,6 +21,30 @@ void WanderingTask::OnBegin()
 void WanderingTask::update(float delta)
 {
 	g_GameLogic->OnEnemyMoved(GetUnit());
+
+	if (false == m_IsFixingRotation)
+	{
+		Unit * UnitNode = GetUnit();
+
+		if (UnitNode->getRotation() > 0)
+		{
+			m_IsFixingRotation = true;
+
+			CCSequence * ActionSequence = CCSequence::create(CCArray::create(
+				CCDelayTime::create(RND_INTERVAL(0.5f, 1.0f)),
+				CCRotateTo::create(1.5f, 0),
+				CCCallFunc::create(this, callfunc_selector(WanderingTask::OnFeet)),
+				NULL));
+
+			UnitNode->runAction(ActionSequence);
+		}
+	}
+}
+
+
+void WanderingTask::OnFeet()
+{
+	m_IsFixingRotation = false;
 }
 
 
