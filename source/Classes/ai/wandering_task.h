@@ -13,6 +13,8 @@ public:
 
 private:
 
+	virtual void update(float delta);
+
 	virtual void OnBegin();
 	virtual void OnSubTaskEnded(BaseAI * subTask);
 
